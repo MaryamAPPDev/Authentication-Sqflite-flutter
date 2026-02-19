@@ -34,9 +34,8 @@ This project demonstrates user registration, login, and profile management using
 
 
 ### 🏗️ Project Structure
-
+```
 lib/
-│
 ├── component/
 │ ├── button.dart
 │ ├── colors.dart
@@ -55,7 +54,7 @@ lib/
 │ └── profile_screen.dart
 │
 └── main.dart
-
+```
 ---
 
 ### 🛠️ Technologies Used
