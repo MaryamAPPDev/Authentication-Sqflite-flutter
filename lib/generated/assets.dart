@@ -4,5 +4,10 @@ class Assets {
 
   static const String assetsBackground = 'assets/background.jpg';
   static const String assetsNoUser = 'assets/no_user.jpg';
+  static const String assetsStartup = 'assets/startup.jpg';
+  static const String screenshotsAuth = 'assets/screenshots/auth.png';
+  static const String screenshotsLogin = 'assets/screenshots/login.png';
+  static const String screenshotsProfile = 'assets/screenshots/profile.png';
+  static const String screenshotsSignup = 'assets/screenshots/signup.png';
 
 }
