@@ -17,21 +17,23 @@ This project demonstrates user registration, login, and profile management using
 - ✅ Safe Async Navigation Handling
 
 ---
+
 ## 📸 Screenshots
 
 ### Main Interface
 
-<div style="display: flex; flex-wrap: wrap; gap: 30px;">
-  <img src="assets/screenshots/auth.png" alt="Auth Screen" width="200" />
-  <img src="assets/screenshots/login.png" alt="Login Screen" width="200" />
-</div>
+| Auth Screen | Login Screen |
+|------------|-------------|
+| ![Auth Screen](assets/screenshots/auth.png) | ![Login Screen](assets/screenshots/login.png) |
 
-<div style="display: flex; flex-wrap: wrap; gap: 30px;">
-  <img src="assets/screenshots/signup.png" alt="Register Screen" width="200" />
-   <img src="assets/screenshots/profile.png" alt="Profile Screen" width="200" />
-</div>
+| Signup Screen | Profile Screen |
+|---------------|----------------|
+| ![Signup Screen](assets/screenshots/signup.png) | ![Profile Screen](assets/screenshots/profile.png) |
+
 ---
-## 🏗️ Project Structure
+
+
+### 🏗️ Project Structure
 
 lib/
 │
@@ -56,22 +58,11 @@ lib/
 
 ---
 
-
-### Table Schema:
-
-```sql
-CREATE TABLE users (
-   usrId INTEGER PRIMARY KEY AUTOINCREMENT,
-   fullName TEXT,
-   email TEXT,
-   usrName TEXT UNIQUE,
-   usrPassword TEXT
-);
----
-## 🛠️ Technologies Used
+### 🛠️ Technologies Used
 
 - **Flutter** - UI Framework
 - **Dart** - Programming Language
+- **Sqflite** - SQLite Local Database
 
 
 ## 📝 Configuration
