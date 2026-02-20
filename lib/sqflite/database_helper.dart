@@ -1,65 +1,77 @@
-
 import 'package:login_app/json/users.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+class DatabaseHelper {
+  static const databaseName = "auth.db";
+  static const tableName = "users";
 
+  static Database? _database;
 
-class DatabaseHelper{
-  final databaseName = "auth.db";
+  // Singleton pattern (Prevents multiple DB instances)
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    _database = await _initDB();
+    return _database!;
+  }
 
-  //Tables
-
-  //Don't put a comma at the end of a column in sqlite
-
-  String user = '''
-   CREATE TABLE users (
-   usrId INTEGER PRIMARY KEY AUTOINCREMENT,
-   fullName TEXT,
-   email TEXT,
-   usrName TEXT UNIQUE,
-   usrPassword TEXT
-   )
-   ''';
-
-  //Our connection is ready
-  Future<Database> initDB ()async{
+  Future<Database> _initDB() async {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
-    return openDatabase(path,version: 1 , onCreate: (db,version)async{
-      await db.execute(user);
-    });
+    return await openDatabase(
+      path,
+      version: 1,
+      onCreate: (db, version) async {
+        await db.execute('''
+          CREATE TABLE $tableName (
+            usrId INTEGER PRIMARY KEY AUTOINCREMENT,
+            fullName TEXT,
+            email TEXT,
+            usrName TEXT UNIQUE,
+            usrPassword TEXT
+          )
+        ''');
+      },
+    );
   }
 
-  //Function methods
+  // ✅ Create User
+  Future<int> createUser(User user) async {
+    final db = await database;
+    return await db.insert(
+      tableName,
+      user.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.abort,
+    );
+  }
 
-  //Authentication
-  Future<bool> authenticate(Users usr)async{
-    final Database db = await initDB();
-    var result = await db.rawQuery("select * from users where usrName = '${usr.usrName}' AND usrPassword = '${usr.password}' ");
-    if(result.isNotEmpty){
-      return true;
-    }else{
-      return false;
+  // ✅ Secure Authentication (No SQL Injection)
+  Future<User?> authenticate(String username, String password) async {
+    final db = await database;
+
+    final result = await db.query(
+      tableName,
+      where: "usrName = ? AND usrPassword = ?",
+      whereArgs: [username, password],
+    );
+
+    if (result.isNotEmpty) {
+      return User.fromMap(result.first);
     }
+    return null;
   }
 
-  //Sign up
-  Future<int> createUser(Users usr)async{
-    final Database db = await initDB();
-    return db.insert("users", usr.toMap());
+  // ✅ Get User
+  Future<User?> getUser(String username) async {
+    final db = await database;
+
+    final result = await db.query(
+      tableName,
+      where: "usrName = ?",
+      whereArgs: [username],
+    );
+
+    return result.isNotEmpty ? User.fromMap(result.first) : null;
   }
-
-
-  //Get current User details
-  Future<Users?> getUser(String usrName)async{
-    final Database db = await initDB();
-    var res = await db.query("users",where: "usrName = ?", whereArgs: [usrName]);
-    return res.isNotEmpty? Users.fromMap(res.first):null;
-  }
-
-
-
-
 }

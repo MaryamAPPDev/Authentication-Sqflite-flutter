@@ -1,29 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:login_app/component/colors.dart';
 
-//We are going to design our own button
-
-class Button extends StatelessWidget {
+class AppButton extends StatelessWidget {
   final String label;
-  final VoidCallback press;
-  const Button({super.key, required this.label, required this.press});
+  final VoidCallback onPressed;
+
+  const AppButton({
+    super.key,
+    required this.label,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
-    //Query width and height of device for being fit or responsive
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      width: size.width *.9,
+    return SizedBox(
+      width: double.infinity,
       height: 55,
-      decoration: BoxDecoration(
-          color: primaryColor,
-          borderRadius: BorderRadius.circular(8)
-      ),
-
-      child: TextButton(
-        onPressed: press,
-        child: Text(label,style: const TextStyle(color: Colors.white),),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }

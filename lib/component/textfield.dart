@@ -1,42 +1,57 @@
-//Our custom textfield
-
 import 'package:flutter/material.dart';
 import 'package:login_app/component/colors.dart';
 
-
-class InputField extends StatelessWidget {
+class AppInputField extends StatefulWidget {
   final String hint;
   final IconData icon;
-  final bool passwordInvisible;
+  final bool isPassword;
   final TextEditingController controller;
-  const InputField({super.key,
+  final String? Function(String?)? validator;
+
+  const AppInputField({
+    super.key,
     required this.hint,
     required this.icon,
     required this.controller,
-    this.passwordInvisible = false});
+    this.isPassword = false,
+    this.validator,
+  });
+
+  @override
+  State<AppInputField> createState() => _AppInputFieldState();
+}
+
+class _AppInputFieldState extends State<AppInputField> {
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
       margin: const EdgeInsets.symmetric(vertical: 6),
-      width: size.width *.9,
-      height: 55,
-      decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(8)
-      ),
-
-      child: Center(
-        child: TextFormField(
-          obscureText: passwordInvisible,
-          controller: controller,
-          decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: hint,
-              icon: Icon(icon)
+      child: TextFormField(
+        controller: widget.controller,
+        obscureText: widget.isPassword ? _obscureText : false,
+        validator: widget.validator,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: AppColors.background,
+          hintText: widget.hint,
+          prefixIcon: Icon(widget.icon),
+          suffixIcon: widget.isPassword
+              ? IconButton(
+            icon: Icon(
+              _obscureText ? Icons.visibility_off : Icons.visibility,
+            ),
+            onPressed: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+          )
+              : null,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none,
           ),
         ),
       ),
