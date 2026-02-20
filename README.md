@@ -26,6 +26,7 @@ This project demonstrates user registration, login, and profile management using
 |------------|-------------|
 | ![Auth Screen](assets/screenshots/auth.png) | ![Login Screen](assets/screenshots/login.png) |
 
+
 | Signup Screen | Profile Screen |
 |---------------|----------------|
 | ![Signup Screen](assets/screenshots/signup.png) | ![Profile Screen](assets/screenshots/profile.png) |
@@ -61,7 +62,7 @@ lib/
 
 - **Flutter** - UI Framework
 - **Dart** - Programming Language
-- **Sqflite** - SQLite Local Database
+- **SQFlite** - SQLite Local Database
 
 
 ## 📝 Configuration
